@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Listagem de pessoas(Reade)</h2>
+    <ul>
+        {% for person in persons %}
+            <li>
+                <a href="{% url 'person_update' person.id %}">{{ person.first_name }}</a><samp>|</samp>
+                <a href="{% url 'person_delete' person.id %}">Deletar</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'person_new' %}">Novo Cliente</a><samp></samp>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>
