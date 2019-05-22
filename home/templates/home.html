@@ -1,22 +1,38 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Seja bem vindo!</h1>
+{% extends 'base.html' %}
 
-    {% if user.is_authenticated %}
-        <p>Ola {{ user.username }}</p>
-        <a href="{% url 'person_list' %}">Clientes</a>
-        <a href="{% url 'logout' %}">Sair</a>
-    {% else %}
-        <a href="{% url 'login' %}">Login</a>
-    {% endif %}
+{% block title %} seja bem vindo{% endblock %}
 
-</body>
-</html>
+{% block main %}
+
+    <div class="row">
+
+        <div class="col-md-8">
+            <h1>Seja bem vindo!</h1>
+            <a href="{% url 'person_list' %}" class="btn btn-light">Clientes</a>
+             <a href="{% url 'person_new' %}" class="btn btn-light">Novo Cliente</a>
+        </div>
+        <div class="col-md-4">
+            {% if user.is_authenticated %}
+
+                <span>Olá {{ user.username }}</span>
+                <a href="{% url 'logout' %}" class="btn btn-link">Sair</a>
+
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-info">Login</a>
+            {% endif %}
+        </div>
+        <!--<div class="col-sm">-->
+
+        <!--</div>-->
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">Desenvolvimento web com Django 2.x</span>
+        </div>
+    </footer>
+{% endblock %}

@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %} Listagem{% endblock %}
+
+{% block main %}
+
 
     <h1>Deseja realmente deletar {{ person.first_name}}?</h1>
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-       <button type="submit">Deletar</button>
+       <button type="submit" class="btn btn-danger">Deletar</button>
     </form>
-</body>
-</html>
+
+{% endblock %}

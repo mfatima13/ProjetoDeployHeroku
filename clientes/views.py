@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Person
 from .forms import PersonForm
+from gestao_clientes import urls
 # Create your views here.
 
 # A class objects é um class especial nos manages para manipular os dados
-@login_required
+@login_required()
 def person_list(request):
     persons = Person.objects.all()
     return render(request, 'person.html', {'persons': persons})

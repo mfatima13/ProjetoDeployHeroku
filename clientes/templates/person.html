@@ -1,20 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %} Listagem{% endblock %}
+
+{% block main %}
+
     <h2>Listagem de pessoas(Reade)</h2>
-    <ul>
+    <ul class="list-group">
         {% for person in persons %}
-            <li>
-                <a href="{% url 'person_update' person.id %}">{{ person.first_name }}</a><samp>|</samp>
-                <a href="{% url 'person_delete' person.id %}">Deletar</a>
+            <li class="list-group-item">
+                <a href="{% url 'person_update' person.id %}" class="btn btn-link">{{ person.first_name }}</a>
+                <a href="{% url 'person_delete' person.id %}" class="trash-item">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
             </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'person_new' %}">Novo Cliente</a><samp></samp>
-    <a href="{% url 'logout' %}">Logout</a>
-</body>
-</html>
+
+    <br>
+
+    <button href="{% url 'person_new' %}" class="btn btn-primary" type="submit">Novo Cliente
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+
+
+    <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+
+
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">Desenvolvimento web com Django 2.x</span>
+        </div>
+    </footer>
+{% endblock %}
