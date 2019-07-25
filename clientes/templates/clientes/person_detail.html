@@ -1,0 +1,9 @@
+<h1>Person Detail</h1>
+{{ object.first_name }}
+<br>
+{{ now|date }}
+
+<div>
+    <a href="{% url 'person_updateCBV' object.id %}">Update</a>
+    <a href="{% url 'person_deleteCBV' object.id %}">Delete</a>
+</div>

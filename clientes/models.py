@@ -10,6 +10,10 @@ class Person(models.Model):
     bio = models.TextField()
     photo = models.ImageField(upload_to='clints_photos', null=True, blank=True) # upload_to cria um diretorio para as imagens dessa classe
 
+    @property
+    def nome_completo(self):
+        return self.first_name + ' ' + self.last_name
+
     def __str__(self):
         return self.first_name + ' ' + self.last_name
 

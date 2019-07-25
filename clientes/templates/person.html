@@ -1,38 +1,65 @@
 {% extends 'base.html' %}
 
+{% load filters %}
+{% load my_tags %}
+
 {% block title %} Listagem{% endblock %}
 
 {% block main %}
 
     <h2>Listagem de pessoas(Reade)</h2>
-    <ul class="list-group">
-        {% for person in persons %}
-            <li class="list-group-item">
-                <a href="{% url 'person_update' person.id %}" class="btn btn-link">{{ person.first_name }}</a>
-                <a href="{% url 'person_delete' person.id %}" class="trash-item">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+
+    <div class="coll-6 busc">
+        <form action="" id="form-busc">
+            <input type="text" name="nome" id="nome" placeholder="Pesquisar">
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div><br>
+
+
+    <div>
+        <ul class="list-group">
+            {% for person in persons %}
+                <li class="list-group-item">
+                    <a href="{% url 'person_update' person.id %}" class="btn btn-link">{{ person.nome_completo|title }}</a>
+                    <a href="{% url 'person_delete' person.id %}" class="trash-item">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </li>
+            {% empty %}
+                <li class="list-group">Desculpe, não há ninguém aqui!</li>
+            {% endfor %}
+        </ul>
+    </div>
 
     <br>
 
-    <button href="{% url 'person_new' %}" class="btn btn-primary" type="submit">Novo Cliente
+    <a href="{% url 'person_new' %}" class="btn btn-primary">new
         <i class="fa fa-plus" aria-hidden="true"></i>
-    </button>
-
+    </a>
 
     <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
 
+<!--Filters -->
+<p>
+{% filter force_escape|lower %}
+    OLÁ, ESTOU ALTERANDO ALGO
+{% endfilter %}
+</p>
+<!--Condicao teste-->
+<p>
+    {% if persons|length >= 2 %}
+        muitas pessoas
+    {% endif %}
+</p>
+<!--pegando data com filters-->
+<p>
+    {% now "d, F Y H:i" %}
+</p>
 
 {% endblock %}
 
 
 {% block footer %}
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted">Desenvolvimento web com Django 2.x</span>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
 {% endblock %}

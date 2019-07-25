@@ -1,0 +1,10 @@
+{% load filters %}
+{% load my_tags %}
+<footer class="footer">
+    <div class="container">
+         <span class="text-muted">{% footer_mensage %}</span>
+        <!--Minhas propias tamplates tags -->
+        {% current_time "%Y-%m-%d %I:%M %p" as the_time %}
+        <span class="text-muted" id="hora">Horário local {{ the_time }}.</span>
+    </div>
+</footer>

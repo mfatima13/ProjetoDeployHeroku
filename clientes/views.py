@@ -3,12 +3,22 @@ from django.contrib.auth.decorators import login_required
 from .models import Person
 from .forms import PersonForm
 from gestao_clientes import urls
+
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.utils import timezone
+from django.urls import reverse_lazy
 # Create your views here.
 
 # A class objects é um class especial nos manages para manipular os dados
 @login_required()
 def person_list(request):
-    persons = Person.objects.all()
+    pesquisa = request.GET.get('nome', None)
+    if pesquisa:
+        persons = Person.objects.filter(first_name__icontains=pesquisa)
+    else:
+        persons = Person.objects.all()
     return render(request, 'person.html', {'persons': persons})
 
 @login_required
@@ -39,3 +49,33 @@ def person_delete(request, id):
         person.delete()
         return redirect('person_list')
     return render(request, 'person_delete_confirm.html', {'person': person})
+
+#listView com CBV
+class PersonList(ListView):
+    model = Person
+    #template_name = 'home3.html'
+
+class PersonDetail(DetailView):
+    model = Person
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
+
+class PersonCreate(CreateView):
+    model = Person
+    fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo']
+    success_url = '/accounts/profile/person_list'
+
+class PersonUpdate(UpdateView):
+    model = Person
+    fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo']
+    success_url = reverse_lazy('person_listCBV')
+
+class PersonDelete(DeleteView):
+    model = Person
+    #success_url = reverse_lazy('person_listCBV')
+
+    def get_success_url(self):
+        return reverse_lazy('person_listCBV')

@@ -7,11 +7,14 @@
     <div class="row">
         {{ result }}
         <div class="col-md-8">
-            <h1>Seja bem vindo!</h1>
+            <h1>Seja bem vindo a home3!</h1>
+
             <a href="{% url 'person_list' %}" class="btn btn-light">Clientes</a>
              <a href="{% url 'person_new' %}" class="btn btn-light">Novo Cliente</a>
+
         </div>
         <div class="col-md-4">
+            {{ minhaVariavel }}
             {% if user.is_authenticated %}
 
                 <span>Olá {{ user.username }}</span>
@@ -26,6 +29,11 @@
         <!--</div>-->
 
     </div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Enviar</button>
+</form>
 
 {% endblock %}
 
