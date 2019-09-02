@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Person
+from .models import *
 from .forms import PersonForm
 from gestao_clientes import urls
 
+from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -58,9 +60,20 @@ class PersonList(ListView):
 class PersonDetail(DetailView):
     model = Person
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['now'] = timezone.now()
+    #     return context
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        return Person.objects.select_related('doc').get(id=pk)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
+        context['vendas'] = Venda.objects.filter(
+            pessoa_id=self.object.id
+        )
         return context
 
 class PersonCreate(CreateView):
@@ -79,3 +92,15 @@ class PersonDelete(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('person_listCBV')
+
+class produtosBulk(View):
+    def get(self, request):#Deixar esse trecho comentado pq sempre que atualizar a pagina faz request
+        # produtos = ['banana', 'macan', 'limão', 'laranja', 'Pera', 'Abacate']
+        # lits_produtos = []
+        #
+        # for produto in produtos:
+        #     p = Produto(descricao=produto, preco=10)
+        #     lits_produtos.append(p)
+        #
+        # Produto.objects.bulk_create(lits_produtos)
+        return HttpResponse('Funcionou')
