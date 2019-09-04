@@ -31,3 +31,13 @@ urlpatterns = [
     #path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
+admin.site.site_header = 'Gestão de Clientes'
+admin.site.index_title = 'Administração'
+admin.site.site_title = 'Bem Vindo ao GC'

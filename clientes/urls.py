@@ -18,4 +18,8 @@ urlpatterns = [
     path('person_create/', PersonCreate.as_view(), name='person_create'),
     path('person_update/<int:pk>/', PersonUpdate.as_view(), name='person_updateCBV'),
     path('person_delete/<int:pk>/', PersonDelete.as_view(), name='person_deleteCBV'),
+    path('produtos_bulk/', produtosBulk.as_view(), name='produtos'),
+
 ]
+
+
