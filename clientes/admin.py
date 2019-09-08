@@ -1,8 +1,5 @@
 from django.contrib import admin
 from .models import *
-from .actions import *
-# Register your models here.
-
 class PersonAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Dados pessoais', {
@@ -31,30 +28,10 @@ class PersonAdmin(admin.ModelAdmin):
             return 'Não'
     tem_foto.short_description = 'Possui foto'
 
-class VendaAdmin(admin.ModelAdmin):
-    list_filter = ('pessoa__doc', 'desconto')
-    list_display = ('id','pessoa', 'get_total', 'nfe_emitida')
-    search_fields = ('id', 'pessoa__first_name', 'pessoa__doc__cpf')
-    autocomplete_fields = ['pessoa', 'produtos']
-    readonly_fields = ('valor',)
-    #filter_horizontal = ['produtos',]
 
-    actions = [mod_nfe, mod_nfe_no]
-
-    Venda.get_total.short_description = 'Venda'
-    """def total(self, obj):
-        return obj.get_total()
-
-    total.short_description = 'total'"""
-
-class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'descricao', 'preco')
-    search_fields = ('id', 'descricao')
 
 class DocumentoAdmin(admin.ModelAdmin):
     search_fields = ('cpf',)
 
 admin.site.register(Person, PersonAdmin)
-admin.site.register(Produto, ProdutoAdmin)
 admin.site.register(Documento, DocumentoAdmin)
-admin.site.register(Venda, VendaAdmin)
