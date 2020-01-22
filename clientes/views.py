@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import *
 from .forms import PersonForm
 from gestao_clientes import urls
+from vendas.models import *
 
 from django.views.generic import View
 from django.views.generic.list import ListView
@@ -25,7 +27,12 @@ def person_list(request):
 
 @login_required
 def person_new(request):
+    if not request.user.has_perm('clientes.change_person'):
+        return HttpResponse("Acesso negado")
+    elif not request.user.is_superuser:
+        return HttpResponse("Não é super usuário")
     form = PersonForm(request.POST or None, request.FILES or None)
+
     if form.is_valid():
         form.save()
         return redirect('person_list')
@@ -33,7 +40,7 @@ def person_new(request):
 
 # update no django, atenção pois é diferente do update de controleGastos
 @login_required
-def person_update(request, id):
+def person_update(request, LoginRequiredMixin, PermissionRequiredMixin, id):
     person = get_object_or_404(Person, pk=id)
     form = PersonForm(request.POST or None, request.FILES or None, instance=person)
 
@@ -53,7 +60,7 @@ def person_delete(request, id):
     return render(request, 'person_delete_confirm.html', {'person': person})
 
 #listView com CBV
-class PersonList(ListView):
+class PersonList(LoginRequiredMixin, ListView):
     model = Person
     #template_name = 'home3.html'
 
@@ -76,17 +83,21 @@ class PersonDetail(DetailView):
         )
         return context
 
-class PersonCreate(CreateView):
+class PersonCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo']
-    success_url = '/accounts/profile/person_list'
+    success_url = '/accounts/profile/person_listCBV'
 
-class PersonUpdate(UpdateView):
+class PersonUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('clientes.atualizar_clientes',)
+
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo']
     success_url = reverse_lazy('person_listCBV')
 
-class PersonDelete(DeleteView):
+class PersonDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = ('clientes.excluir_clientes',)
+
     model = Person
     #success_url = reverse_lazy('person_listCBV')
 

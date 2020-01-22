@@ -15,6 +15,12 @@ class Person(models.Model):
     photo = models.ImageField(upload_to='clints_photos', null=True, blank=True) # upload_to cria um diretorio para as imagens dessa classe
     doc = models.OneToOneField(Documento, null=True, blank=True, on_delete=models.CASCADE)
 
+    class Meta:
+        permissions = (
+            ('atualizar_clientes', 'Atualizar clientes'),
+            ('excluir_clientes', 'excluir clientes'),
+        )
+
     @property
     def nome_completo(self):
         return self.first_name + ' ' + self.last_name

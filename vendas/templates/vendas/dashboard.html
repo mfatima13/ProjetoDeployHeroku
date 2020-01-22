@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <h1>Dashboard</h1>
+
+    <h3>Total médio do valor das vendas: {{ media }}</h3>
+    <h3>Desconto médio: {{ media_desc }}</h3>
+    <h3>Ped. menor valor: {{ min }}</h3>
+    <h3>Ped. maior valor: {{ max }}</h3>
+    <h3>pedidos: {{ m_ped }}</h3>
+    <h3>Nfe emitidas: {{ nfe_ped }}</h3>
+
+{% endblock %}

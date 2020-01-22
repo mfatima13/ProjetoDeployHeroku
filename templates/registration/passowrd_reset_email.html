@@ -1,0 +1,5 @@
+{% autoescape off %}
+    Iniciando o processo de reset pra vc {{ user.get_username }}
+
+    {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+{% endautoescape %}

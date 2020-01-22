@@ -1,10 +1,5 @@
-from django.http import HttpResponseNotFound
-
 def mod_nfe(modeladmin, request, queryset):
-    if request.user.has_perm('vendas.setar_nfe'):
-        queryset.update(nfe_emitida=True)
-    else:
-        return HttpResponseNotFound('<h2>Sem permissão</>')
+    queryset.update(nfe_emitida=True)
 
 mod_nfe.short_description = 'nfe - emitida'    
 
