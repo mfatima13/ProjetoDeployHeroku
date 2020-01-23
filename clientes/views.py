@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+<<<<<<< HEAD
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+=======
+>>>>>>> 8c07669162aa3f3460f16081fa2c03c066068a25
 from .models import *
 from .forms import PersonForm
 from gestao_clientes import urls
